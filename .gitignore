@@ -1,6 +1,7 @@
 venv/
 __pycache__/
 instance/
+env_vars/
 .vscode
 .idea
 .env
