@@ -1,7 +1,12 @@
+import uuid
+
+from core import database as db
 from sqlalchemy import (
+    DECIMAL,
     Boolean,
     Column,
     DateTime,
+    Float,
     ForeignKey,
     Integer,
     String,
@@ -9,8 +14,6 @@ from sqlalchemy import (
     text,
 )
 from sqlalchemy.dialects.postgresql import UUID
-
-from core import database as db
 
 
 class Category(db.Model):
@@ -47,3 +50,20 @@ class Product(db.Model):
 
     def __repr__(self) -> str:
         return f"<Name: {self.name}>"
+
+
+class ProductLine(db.Model):
+    __table_name__ = "product_line"
+
+    id = Column(Integer, primary_key=True)
+    price = Column(DECIMAL(5, 2))
+    sku = Column(UUID(as_uuid=True), default=uuid.uuid4)
+    stock_quantity = Column(Integer, default=0)
+    is_active = Column(Boolean, default=False)
+    order = Column(Integer)
+    weight = Column(Float)
+    created_at = Column(DateTime, server_default=db.text("CURRENT_TIMESTAMP"))
+    product_id = Column(Integer, ForeignKey("product.id"))
+
+    def __repr__(self) -> str:
+        return f"ProductLine {self.id}"
