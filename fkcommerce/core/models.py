@@ -16,18 +16,8 @@ from sqlalchemy import (
 from sqlalchemy.dialects.postgresql import UUID
 
 
-class Category(db.Model):
-    __tablename__ = "category"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), unique=True, nullable=False)
-    slug = Column(String(200), unique=True, nullable=False)
-    is_active = Column(Boolean, default=False)
-    parent_id = Column(Integer, ForeignKey("category.id"))
-
-
 class Product(db.Model):
-    __table_name__ = "product"
+    __tablename__ = "product"
 
     id = Column(Integer, primary_key=True)
     pid = Column(
@@ -47,13 +37,14 @@ class Product(db.Model):
     is_active = Column(Boolean, default=False)
     stock_status = Column(String(100), default="OUT_OF_STOCK")
     category_id = Column(Integer, ForeignKey("category.id"))
+    seasonal_event = Column(Integer, ForeignKey("seasonal_event.id"), nullable=True)
 
     def __repr__(self) -> str:
         return f"<Name: {self.name}>"
 
 
 class ProductLine(db.Model):
-    __table_name__ = "product_line"
+    __tablename__ = "product_line"
 
     id = Column(Integer, primary_key=True)
     price = Column(DECIMAL(5, 2))
@@ -67,3 +58,28 @@ class ProductLine(db.Model):
 
     def __repr__(self) -> str:
         return f"ProductLine {self.id}"
+
+
+class ProductImage(db.Model):
+    __tablename__ = "product_image"
+
+    id = Column(Integer, primary_key=True)
+    alternative_text = Column(String(200))
+    url = Column(String)
+    order = Column(Integer)
+    product_line_id = Column(Integer, ForeignKey("product_line.id"))
+
+    def __repr__(self) -> str:
+        return f"ProductImage {self.id}"
+
+
+class SeasonalEvent(db.Model):
+    __tablename__ = "seasonal_event"
+
+    id = Column(Integer, primary_key=True)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
+    name = Column(String(100), unique=True)
+
+    def __repr__(self):
+        return self.name
