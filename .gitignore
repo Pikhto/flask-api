@@ -2,6 +2,7 @@ venv/
 __pycache__/
 instance/
 env_vars/
+fkcommerce/migrations/
 .vscode
 .idea
 .env
