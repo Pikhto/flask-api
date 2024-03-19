@@ -23,6 +23,10 @@ class DevolopmentConfig(Config):
     )
     SQLALCHEMY_DATABASE_URI = url_object
 
+    APIFAIRY_TITLE = "Fkcommerce Project"
+    APIFAIRY_UI = "swagger_ui"
+    APIFAIRY_VERSION = "1.0"
+
 
 class ProductionConfig(Config):
     FLASK_ENV = "devolopment"
